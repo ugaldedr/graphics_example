@@ -34,14 +34,12 @@ Kdr=0.5
 Ksr=0.5
 CenterX=0
 
-
+# Function to create ctpe array
 def vec(*args):
-      #Function to create ctpe array
       return (GLfloat * len(args))(*args)
 
-        
+# Function to initialize the bird object used in the animation
 def create_bird():
-
       global WingAngle
       global WingIncr
       global WingFlag
@@ -84,14 +82,11 @@ def create_bird():
       if WingAngle==0:
             WingAngle=45
 
-
-
       elif WingAngle==45:
             WingAngle=0
 
-
+# Function to initialize the flag object in the animation
 def create_flag():
-
       glNewList(2,GL_COMPILE)
       glTranslatef(0,-60,0)
       glColor3f(0, 0, 0)
@@ -103,6 +98,7 @@ def create_flag():
 
       glEndList()
 
+# Function to set the window settings for the animation
 def display():
       global Angle
       global Incr
@@ -163,7 +159,7 @@ def display():
       Angle = Angle + Incr
 
 
-
+# Input handler for the animation
 def keyHandler(Key, MouseX, MouseY):
       global Incr
       global key1
@@ -179,7 +175,6 @@ def keyHandler(Key, MouseX, MouseY):
             else:
                   print ("Slowing Down")
                   Incr = Incr - 0.5
-
 
       elif Key == b'a' :
             if (Kar > 0):
@@ -229,6 +224,8 @@ def keyHandler(Key, MouseX, MouseY):
                   key1=1
       else:
             print(("Invalid Key ",Key))
+
+# Additional input handling for viewing angles
 def handleArrowPress(key, MouseX, MouseY):
       global EyeY
       global CenterX
@@ -251,28 +248,33 @@ def timer(dummy):
       display()
       create_bird()
       glutTimerFunc(30,timer,0)
+
 def reshape(w, h):
       print(("Width=",w,"Height=",h))
-          
-glutInit(sys.argv)
-glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH)
-glutInitWindowSize(800, 500)
-glutInitWindowPosition(100, 100)
-glutCreateWindow(b"PyOpenGL Demo")
-glClearColor(1,1,0,0)
-glPolygonMode(GL_FRONT_AND_BACK,GL_FILL)
-glEnable(GL_DEPTH_TEST)
-glDepthFunc(GL_LESS);
 
-glutDisplayFunc(display)
-glutKeyboardFunc(keyHandler)
-glutSpecialFunc(handleArrowPress)
-glutTimerFunc(300,timer,0)
-glutReshapeFunc(reshape)
-glMatrixMode(GL_PROJECTION)
-glLoadIdentity()
-glMatrixMode(GL_MODELVIEW)
-create_bird()
-create_flag()
-glutMainLoop()
+def main():
+      glutInit(sys.argv)
+      glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH)
+      glutInitWindowSize(800, 500)
+      glutInitWindowPosition(100, 100)
+      glutCreateWindow(b"PyOpenGL Demo")
+      glClearColor(1,1,0,0)
+      glPolygonMode(GL_FRONT_AND_BACK,GL_FILL)
+      glEnable(GL_DEPTH_TEST)
+      glDepthFunc(GL_LESS);
+
+      glutDisplayFunc(display)
+      glutKeyboardFunc(keyHandler)
+      glutSpecialFunc(handleArrowPress)
+      glutTimerFunc(300,timer,0)
+      glutReshapeFunc(reshape)
+      glMatrixMode(GL_PROJECTION)
+      glLoadIdentity()
+      glMatrixMode(GL_MODELVIEW)
+      create_bird()
+      create_flag()
+      glutMainLoop()
+
+if __name__ == "__main__":
+      main()
 
